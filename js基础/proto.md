@@ -1,6 +1,41 @@
-## js原型与原型链
+## 对象与原型
 
 ### 介绍
+
+#### 创建对象
+
+1.Object构造函数
+
+```
+var person = new Object();
+```
+
+2.对象字面量
+
+```
+var person = {};
+```
+
+3.工厂模式
+
+```
+function createPerson (name) {
+    var o = new Object();
+    o.name  = name;
+    return o
+}
+var person1 = createPerson('jim');
+```
+
+4.构造函数模式
+
+```
+function Person (name) {
+    this.name = name;
+}
+var person1 = new Person('jim');
+```
+
 
 每一个函数都有prototype的属性
 
@@ -23,6 +58,7 @@ console.log(person2.name) // jim
 #### constructor
 
 每个原型都有一个 constructor 属性指向关联的构造函数。
+默认情况下constructor不可枚举
 
 ```
 function Person() {
@@ -31,12 +67,73 @@ function Person() {
 console.log(Person === Person.prototype.constructor); // true
 ```
 
+特例：
+
+当使用函数字面量重写原型对象时constructor就不会指向原型，而是新对象（Object构造函数）
+```
+Person.prototype = {
+    name: 'jim'
+}
+var friend = new Person();
+console.log(friend instanceof Object) //true
+console.log(friend instanceof Person) //true
+console.log(friend.constructor == Person) //false
+console.log(friend.contructor == Object) //true
+```
+
+如何修复：
+使用es5 中的 Object.defineProperty();
+
+```
+Person.prototype = {
+    name: 'jim'
+}
+var friend = new Person();
+
+Object.defineProperty(Person.prototype, 'constructor', {
+    enumerable: false,
+    value: Person
+})
+```
+
 #### 原型链
 
 当读取实例的属性时，如果找不到，就会查找与对象关联的原型中的属性，如果还查不到，就去找原型的原型，一直找到最顶层为止。
 
+#### 原型方法
 
-### 结论
+```
+function Person () {
+
+}
+Person.prototype.name = 'jim';
+
+var person1 = new Person();
+var person2 = new Person();
+person2.name = 'tom';
+
+```
+1.isPrototypeOf();
+```
+console.log(Person.prototype.isPrototypeOf(person1)) //true
+```
+
+2.getPrototypeOf
+
+```
+console.log(Object.getPrototypeOf(person1) == Person.prototype) //true
+console.log(Object.getPrototypeOf(person1).name) //jim
+```
+
+3.hasOwnProperty()
+```
+console.log(person1.hasOwnProperty('name')) //false
+console.log(person2.hasOwnProperty('name')) //true
+
+```
+
+
+### 注意
 
 1.只有函数才有prototype属性, 对象没有
 ![proto]('../images/js/proto.png')
