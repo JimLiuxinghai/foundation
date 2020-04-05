@@ -136,8 +136,8 @@ console.log(person2.hasOwnProperty('name')) //true
 ### 注意
 
 1.只有函数才有prototype属性, 对象没有
-![proto]('../images/js/proto.png')
+![proto](../images/js/proto.png)
 
 2.其实原型对象就是通过 Object 构造函数生成的，结合之前所讲，实例的 __proto__ 指向构造函数的 prototype.
 
-![proto]('../images/js/prototype5.png')
+![proto](../images/js/prototype5.png)
