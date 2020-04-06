@@ -69,7 +69,7 @@ console.log(Person === Person.prototype.constructor); // true
 
 特例：
 
-当使用函数字面量重写原型对象时constructor就不会指向原型，而是新对象（Object构造函数）
+当使用函数字面量重写原型对象时constructor就不会指向原型，而是新对象（Object构造函数）这是原型模式
 ```
 Person.prototype = {
     name: 'jim'
