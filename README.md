@@ -7,3 +7,11 @@
 3.[事件](./js基础/event.md)
 
 4.[事件循环](./js基础/EventLoop.md)
+
+5.[闭包](./js基础/closure.md)
+
+6.[浮点数精度](./js基础/float.md)
+
+7.[类型判断](./js基础/types.md)
+
+8.[节流与防抖](./js基础/debounce&throttle.md)
