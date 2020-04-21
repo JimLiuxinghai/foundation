@@ -717,6 +717,39 @@ findIndex()定义：返回第一个符合条件的数组成员的位置，如果
     let b = [1, 4, -5, 10,NaN].findIndex((n) => Object.is(NaN, n));  // 返回索引4
 ```
 
+#### ES6 keys()&values()&entries()
+
+定义：三个方法都返回一个新的 Array Iterator 对象，对象根据方法不同包含不同的值。
+
+语法：
+```
+    array.keys()
+    array.values()
+    array.entries()
+
+```
+
+```
+    for (let index of ['a', 'b'].keys()) {
+      console.log(index);
+    }
+    // 0
+    // 1
+    
+    for (let elem of ['a', 'b'].values()) {
+      console.log(elem);
+    }
+    // 'a'
+    // 'b'
+    
+    for (let [index, elem] of ['a', 'b'].entries()) {
+      console.log(index, elem);
+    }
+    // 0 "a"
+    // 1 "b"
+
+```
+
 
 
 

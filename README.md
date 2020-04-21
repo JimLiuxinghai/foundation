@@ -14,4 +14,10 @@
 
 7.[类型判断](./js基础/types.md)
 
-8.[节流与防抖](./js基础/debounce&throttle.md)
+8.[数组](./js基础/array.md)
+
+9.[节流与防抖](./js基础/debounce&throttle.md)
+
+## ES6 
+
+1.[let和const](./es6/let&const.md)
