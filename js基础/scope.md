@@ -64,9 +64,9 @@ JavaScript 的可执行代码(executable code)的类型有哪些了？
 先了解全局对象：
 
     全局对象是预定义的对象，作为JavaScript的全局函数和全局属性的占位符，通过使用全局对象，可以访问其他所有预定义的对象、函数和属性。
-
+    
     在顶层JavaScript代码中，可以使用关键字this引用全局对象。因为全局对象是作用域链的头，这以为这所有非限定性的变量和函数名都会作为改对象的属性来查询。
-
+    
     例如，当JavaScript引用parseInt()函数时，它引用的市全局对象的parseInt属性。全局对象是作用域链的投，还意味着在顶层JavaScript代码中声明的所有变量都将成为全局对象的变量。
 
 1.可以通过this引用，在客户端JavaScript中，全局对象就是window对象。
@@ -194,7 +194,7 @@ function a() {
 函数创建是各自的[[Scope]]为：
 ```
 a.[[Scope]] = [
-    globalContext:.VO
+    globalContext.VO
 ]
 b.[[Scope]] = [
     aContext.AO,
@@ -235,7 +235,7 @@ ECStack = [
 ```
 
 举个🌰
-```
+```javascript
 function fun3() {
     console.log('fun3')
 }
@@ -252,7 +252,7 @@ fun1();
 ```
 当遇到函数执行时，就会创建一个执行上下文，并把该执行上下文推入执行上下文栈中，当函数执行完毕，就会将函数的执行上下文从栈中弹出。
 
-```
+```javascript
 // 伪代码
 
 // fun1()

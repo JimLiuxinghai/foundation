@@ -21,3 +21,14 @@
 ## ES6 
 
 1.[let和const](./es6/let&const.md)
+
+2.[箭头函数](./es6/arrow-function.md)
+
+3.[Symbol](./es6/symbol.md)
+
+4.[Set&WeakSet](./es6/set&weakSet.md)
+
+5.[Map&WeakMap](./es6/map&WeakMap.md)
+
+
+
