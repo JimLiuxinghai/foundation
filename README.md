@@ -30,5 +30,7 @@
 
 5.[Map&WeakMap](./es6/map&WeakMap.md)
 
+6.[Promise](./es6/promise.md)
+
 
 
