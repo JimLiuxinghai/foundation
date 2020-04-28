@@ -157,14 +157,14 @@ async/await 的实现，离不开 Promise。从字面意思来理解，async 是
     * 首先，传递给 await 的值被包裹在一个 Promise 中。然后，处理程序附加到这个包装的 Promise，以便在 Promise 变为 fulfilled 后恢复该函数，并且暂停执行异步函数，一旦 promise 变为 fulfilled，恢复异步函数的执行。
     * 每个 await 引擎必须创建两个额外的 Promise（即使右侧已经是一个 Promise）并且它需要至少三个 microtask 队列 ticks（tick为系统的相对时间单位，也被称为系统的时基，来源于定时器的周期性中断（输出脉冲），一次中断表示一个tick，也被称做一个“时钟滴答”、时标。）。
 
-    ```
+    ```javascript
     async function f() {
         await p
         console.log('ok')
     }
     ```
     简化为
-    ```
+    ```javascript
     function f() {
         return RESOLVE(p).then(() => {
             console.log('ok')
