@@ -231,5 +231,268 @@ inOrderTraverse(cb) {
 }
 ```
 
+声明 IN_ORDER_TRAVERSE_RECUSIVE 辅助函数进行中序遍历，步骤如下：
 
+- 行 {1} 访问左侧节点
+- 行 {2} 访问节点本身
+- 行 {3} 访问右侧节点
+
+```javascript
+/**
+ * 中序遍历递归调用
+ * @param { Object } node 
+ * @param {Function } cb 
+ */
+[IN_ORDER_TRAVERSE_RECUSIVE](node, cb) {
+    if (node !== null) {
+        this[IN_ORDER_TRAVERSE_RECUSIVE](node.left, cb); // {1} 访问左侧节点
+        cb(node.value); // {2} 取当前树的子节点的值（树的最底端）
+        this[IN_ORDER_TRAVERSE_RECUSIVE](node.right, cb); // {3} 访问右侧节点
+    }
+}
+```
+
+下图左侧展示了中序遍历的访问路径，右侧为其输出结果是一个从小到大的顺序排列。
+
+![bst_](../images/algorithm/bst_in_order_traverse.png)
+
+#### 后序遍历
+
+先访问节点的子节点，再访问节点本身，也就是当节点左右节点都未null时才取节点本身。
+
+```javascript
+/**
+ * 后序遍历
+ * @param { Function } cb 
+ */
+postOrderTraverse(cb) {
+    return this[POST_ORDER_TRAVERSE_RECUSIVE](this.root, cb);
+}
+```
+
+声明 POST_ORDER_TRAVERSE_RECUSIVE 辅助函数进行中序遍历，步骤如下：
+
+- {1} 访问左侧节点
+- {2} 访问右侧节点
+- {3} 取当前节点本身
+
+```javascript
+/**
+ * 后序遍历递归调用
+ * @param {*} node 
+ * @param {*} cb 
+ */
+[POST_ORDER_TRAVERSE_RECUSIVE](node, cb) {
+    if (node !== null) {
+        this[POST_ORDER_TRAVERSE_RECUSIVE](node.left, cb); // {1} 访问左侧节点
+        this[POST_ORDER_TRAVERSE_RECUSIVE](node.right, cb); // {2} 访问右侧节点
+        cb(node.value); // {3} 取当前节点本身
+    }
+}
+```
+
+下图左侧展示了后序遍历的访问路径，右侧为输出结果。
+
+![bst_1](../images/algorithm/bst_post_order_traverse.png)
+
+后序遍历一个应用场景适合对目录进行遍历计算，还适合做析构函数，从后序节点开始删除。
+
+#### 二叉树销毁
+
+在上面最后讲解了二叉搜索树的后序遍历，这里讲下它的实际应用，在 C++ 等面向对象编程语言中可以定义析构函数使得某个对象的所有引用都被删除或者当对象被显式销毁时执行，做一些善后工作。
+
+例如，我们本次实现的二叉搜索树，可以利用后序遍历的方式，逐渐将每个节点进行释放。
+
+定义一个 destroy 方法，以便在树的实例上能够调用。
+
+```javascript
+/**
+ * 二叉树销毁，可以利用后续遍历特性实现
+ */
+destroy(){
+    this.root = this[DESTORY_RECUSIVE](this.root);
+}
+```
+
+定义一个 DESTORY_RECUSIVE 方法递归调用，本质也是一个后序遍历。
+
+```javascript
+/**
+ * 销毁二叉搜索树递归调用
+ * @param { Object } node 
+ */
+[DESTORY_RECUSIVE](node) {
+    if (node !== null) {
+        this[DESTORY_RECUSIVE](node.left);
+        this[DESTORY_RECUSIVE](node.right);
+
+        node = null;
+        this.count--;
+        return node;
+    }
+}
+```
+
+#### 最大最小节点
+
+在来回顾下二叉搜索树的定义：“一个父亲节点大于自己的左侧节点和小于自己的右侧节点”，根据这一规则可以很容易的求出最小最大值。
+
+##### 求二叉树中最小节点值
+
+查找最小值，往二叉树的左侧查找，直到该节点left未null没有左侧节点，证明其是最小值。
+
+```javascript
+/**
+ * 求二叉树中最小节点值
+ * @return value
+ */
+minNodeValue() {
+    const result = this.minNode(this.root);
+
+    return result !== null ? result.value : null;
+}
+```
+
+求最小节点
+
+```javascript
+/**
+ * 求最小节点
+ */ 
+minNode(node) {
+    if (node === null) {
+        return node;
+    }
+
+    while (node && node.left !== null) {
+        node = node.left;
+    }
+
+    return node;
+}
+```
+
+##### 求二叉树中的最大节点
+
+与正面类似，查找最大值，往二叉树的右侧查找，直到该节点right为null没有右侧节点，证明其实最大值
+
+```javascript
+/**
+ * 求二叉树中最大节点
+ */
+maxNodeValue() {
+    let node = this.root;
+
+    if (node === null) {
+        return node;
+    }
+
+    while(node && node.right !== null) {
+        node = node.right;
+    }
+
+    return node.value;
+}
+```
+
+### 删除节点
+
+定义一个removeNode方法，以便在树的实例上能够调用。
+
+```javascript
+/**
+ * 删除节点
+ * 若删除节点为 n，找到删除节点的后继 s = min(n->right)
+ */
+removeNode(value) {
+    this.root = this[REMOVE_NODE_RECUSIVE](this.root, value);
+}
+```
+
+同样我们也需要定一个 REMOVE_NODE_RECUSIVE 方法递归调用，移除节点是二叉搜索树中我们这实现的这些方法中最复杂的一个，代码实现如下，也尽可能的为你写好了注释，现将实现思路步骤列举如下：
+
+- {1} 先判断节点是否为 null，如果等于 null 直接返回。
+- {2} 判断要删除节点小于当前节点，往树的左侧查找
+- {3} 判断要删除节点大于当前节点，往树的右侧查找
+- {4} 节点已找到，另划分为四种情况
+  - {4.1} 当前节点即无左侧节点又无右侧节点，直接删除，返回 null
+  - {4.2} 若左侧节点为 null，就证明它有右侧节点，将当前节点的引用改为右侧节点的引用，返回更新之后的值
+  - {4.3} 若右侧节点为 null，就证明它有左侧节点，将当前节点的引用改为左侧节点的引用，返回更新之后的值
+  - {4.4} 若左侧节点、右侧节点都不为空情况
+
+```javascript
+/**
+ * 删除一个节点递归调用
+ * @param { Object } node 
+ * @param { Number } value 
+ */
+[REMOVE_NODE_RECUSIVE](node, value) {
+    // {1} 未查找到直接返回 null
+    if (node === null) {
+        return node;
+    }
+
+    // {2} 左侧节点递归删除
+    if (value < node.value) {
+        node.left = this[REMOVE_NODE_RECUSIVE](node.left, value);
+        return node;
+    }
+
+    // {3} 右侧节点递归删除
+    if (value > node.value) {
+        node.right = this[REMOVE_NODE_RECUSIVE](node.right, value);
+        return node;
+    }
+
+    // {4} value === node.value 节点找到
+
+    // {4.1} 当前节点即无左侧节点又无右侧节点，直接删除，返回 null
+    if (node.left === null && node.right === null) {
+        node = null;
+        this.count--;
+        return node;
+    }
+
+    // {4.2} 若左侧节点为 null，就证明它有右侧节点，将当前节点的引用改为右侧节点的引用，返回更新之后的值
+    if (node.left === null) {
+        node = node.right;
+        this.count--;
+        return node;
+    }
+
+    // {4.3} 若右侧节点为 null，就证明它有左侧节点，将当前节点的引用改为左侧节点的引用，返回更新之后的值
+    if (node.right === null) {
+        node = node.left;
+        this.count--;
+        return node;
+    }
+
+    // {4.4} 若左侧节点、右侧节点都不为空情况
+    // s = min(n->right)
+    if (node.left !== null && node.right !== null) {
+        // 找到最小节点，切断对象引用，复制一个新对象 s
+        const s = new this.CopyNode(this.minNode(node.right));
+        this.count++;
+        s.left = node.left;
+        s.right = this[REMOVE_NODE_RECUSIVE](node.right, s.value); // 删除最小节点
+        node = null; 
+        this.count--;
+        return s; // 返回 s 节点替换掉 node 节点
+    }
+}
+```
+
+假设现在我们将树中节点为 30 的删除，下图展示了删除前和删除之后的对比
+
+![bst_remove](../images/algorithm/bst_remove.png)
+
+### 二分搜索树局限性
+
+同样的数据，不同的插入顺序，树的结果是不一样的：
+
+![bst_question](../images/algorithm/bst_question.png)
+
+这就是二叉搜索树存在的问题，它可能是极端的，并不总是向左侧永远是一个平衡的二叉树，如果我顺序化插入树的形状就如右侧所示，会退化成一个链表，试想如果我需要查找节点 40，在右图所示的树形中需要遍历完所有节点，相比于左侧时间性能会消耗一倍。
+
+为了解决这一问题，可能需要一种平衡的二叉搜索树，常用的实现方法有红黑树、AVL 树等。
 
