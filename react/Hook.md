@@ -1,5 +1,7 @@
 ## Hook
 
+*Hook* 是 React 16.8 的新增特性。它可以让你在不编写 class 的情况下使用 state 以及其他的 React 特性。
+
 ### 动机
 
 **组件之间复用状态逻辑很难**
@@ -345,4 +347,8 @@ React 没有提供将可复用性行为“附加”到组件的途径（例如�
   
 
 * useDebugValue
+
+
+
+[react hook优缺点](https://zhuanlan.zhihu.com/p/88593858)
 
