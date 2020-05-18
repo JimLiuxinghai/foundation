@@ -13,9 +13,15 @@
 ### 2.正则
 
 ```javascript
-var str = "100000000000",
-    reg = /(?=(\B\d{3})+$)/g;
-console.log(str.replace(reg, ","));
+
+var num = 123123.1212
+function formatData(num) {
+	num += '';
+	if (!num.includes('.')) num += '.';
+	return num.replace(/(\d)(?=(\d{3})+\.)/g, function($0, $1) {
+	  return $1 + ',';
+	}).replace(/\.$/, '');
+}
 ```
 
 在`\d`前面加一个非单词边界`\B`，用来表示所匹配的这个空后面不能是一个单词边界，这样就可以把最前面的这个`,`去掉了。
