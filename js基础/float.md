@@ -97,7 +97,7 @@ sign 就是 -1，exponent 就是 10^3，fraction 就是 1.02
 
 所以，如果要存储一个浮点数，我们存 S 和 Fraction 和 E + bias 这三个值就好了，那具体要分配多少个字节位来存储这些数呢？IEEE754 给出了标准：
 
-![](../images/float.jpeg)
+![](../images/js/float.jpeg)
 
 在这个标准下：
 

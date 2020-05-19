@@ -159,8 +159,9 @@ document.addEventListener("click", function() {
 我们不希望ele的点击事件冒泡到document上
 ```
 const ele = document.getElementById("ele");
-ele.addEventListener("click", function() {
+ele.addEventListener("click", function(e) {
     console.log("ele-click");
+    e.stopPropagation()
 }, false);
 
 document.addEventListener("click", function() {

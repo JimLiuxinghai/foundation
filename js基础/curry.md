@@ -4,7 +4,7 @@
 
 ### 用途
 
-```
+```javascript
 // 示意而已
 function ajax(type, url, data) {
     var xhr = new XMLHttpRequest();
@@ -32,7 +32,7 @@ curry 的这种用途可以理解为：参数复用。本质上是降低通用�
 
 代码
 
-```
+```javascript
 function curry(fn, args) {
     var length = fn.length;
 

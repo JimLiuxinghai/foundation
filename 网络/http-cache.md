@@ -20,7 +20,7 @@
 
 强缓存的实现分为 Expires、Cache-Control 两个。
 
-#### Expi###res
+#### Expires
 
 Expires 属于 HTTP 1.0 时期的产物，在响应中进行设置，示例如下：
 

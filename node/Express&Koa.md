@@ -36,7 +36,7 @@ Koa 使用的是一个洋葱模型，它的一个特点是级联，通过 await 
 
 **Koa中间件机制**
 
-Koa （>=v7.6）默认支持 Async/Await，在 Koa 中多个异步中间件进行组合，其中一个最核心的实现是 [koa-compse](https://www.nodejs.red/#/github.com/koajs/compose) 这个组件，下面一步一步的进行实现。
+Koa （>=v7.6）默认支持 Async/Await，在 Koa 中多个异步中间件进行组合，其中一个最核心的实现是 [koa-compose](https://www.nodejs.red/#/github.com/koajs/compose) 这个组件，下面一步一步的进行实现。
 
 从三个函数开始做为例子开始封装一个类似于 koa-compse 的组合函数：
 

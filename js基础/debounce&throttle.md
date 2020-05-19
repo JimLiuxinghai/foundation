@@ -9,7 +9,7 @@
 ```
  <div id="container"></div>
 ```
-```
+```javascript
 var count = 1;
 var container = document.getElementById('container');
 
@@ -24,7 +24,7 @@ container.onmousemove = getUserAction;
 
 
 
-```
+```javascript
 function debounce(func, wait) {
     var timeout;
     return function () {
@@ -48,7 +48,7 @@ container.onmousemove = debounce(getUserAction, 1000);
 
 
 
-```
+```javascript
 function debounce (func, wait) {
     var timeout;
     return function() {
@@ -76,15 +76,18 @@ e会是MouseEvent
 
 
 
-```
-function debounce (func, wait) {
+```javascript
+function debounce(func, wait) {
     var timeout;
+
     return function () {
-        var that = this;
-        clearTimeout(timeout);
-        timeout = setTimeout(function () {}, wait) {
-            
-        }
+        var context = this;
+        var args = arguments;
+
+        clearTimeout(timeout)
+        timeout = setTimeout(function(){
+            func.apply(context, args)
+        }, wait);
     }
 }
 ```

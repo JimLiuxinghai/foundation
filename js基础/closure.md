@@ -28,7 +28,7 @@ ECMAScript中，闭包指的是：
 接下来讲讲实践中的闭包：
 
 举个🌰
-```
+```javascript
 var scope = "global scope";
 function checkscope(){
     var scope = "local scope";
@@ -63,7 +63,7 @@ foo();
 
 ### 最常见的面试题
 
-```
+```javascript
 var data = [];
 
 for (var i = 0; i < 3; i++) {
@@ -77,7 +77,7 @@ data[1](); //3
 data[2](); //3
 ```
 当执行到data[0]的，此时全局上下文为:
-```
+```javascript
 globalContext = {
     VO: {
         data: [...],
@@ -97,7 +97,7 @@ data[1]和data[2]同理
 
 改造为闭包：
 
-```
+```javascript
 var data = [];
 
 for (var i = 0; i < 3; i++) {
