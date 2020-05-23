@@ -116,3 +116,98 @@ git log
 
 `三次提交合并成了一次，减少了无用的提交信息。`
 
+![git](../images/tools/git2.png)
+
+### Rebase 场景二：分支合并
+
+1.我们先从 `master` 分支切出一个 `dev` 分支，进行开发：
+
+```shell
+git:(master) git checkout -b feature1
+```
+
+![git branch](../images/tools/git3.png)
+
+2.这时候，你的同事完成了一次 `hotfix`，并合并入了 `master` 分支，此时 `master` 已经领先于你的 `feature1` 分支了：
+
+![git branch](../images/tools/git4.png)
+
+3.恰巧，我们想要同步 `master` 分支的改动，首先想到了 `merge`，执行：
+
+```shell
+git:(feature1) git merge master
+```
+
+![git branch](../images/tools/git5.png)
+
+图中绿色的点就是我们合并之后的结果，执行：
+
+```shell
+git:(feature1) git log
+```
+
+就会在记录里发现一些 `merge` 的信息，但是我们觉得这样污染了 `commit` 记录，想要保持一份干净的 `commit`，怎么办呢？这时候，`git rebase` 就派上用场了。
+
+4.让我们来试试 `git rebase` ，先回退到同事 `hotfix` 后合并 `master` 的步骤：
+
+![git rebase](../images/tools/git6.png)
+
+5.使用 `rebase` 后来看看结果：
+
+```shell
+git:(feature1) git rebase master
+```
+
+这里补充一点：`rebase` 做了什么操作呢？
+
+首先，`git` 会把 `feature1` 分支里面的每个 `commit` 取消掉；
+其次，把上面的操作临时保存成 `patch` 文件，存在 `.git/rebase` 目录下；
+然后，把 `feature1` 分支更新到最新的 `master` 分支；
+最后，把上面保存的 `patch` 文件应用到 `feature1` 分支上；
+
+![git rebase](../images/tools/git7.png)
+
+从 `commit` 记录我们可以看出来，`feature1` 分支是基于 `hotfix` 合并后的 `master` ，自然而然的成为了最领先的分支，而且没有 `merge` 的 `commit` 记录，是不是感觉很舒服了。
+
+6.在 `rebase` 的过程中，也许会出现冲突 `conflict`。在这种情况，`git` 会停止 `rebase` 并会让你去解决冲突。在解决完冲突后，用 `git add` 命令去更新这些内容。
+
+`注意，你无需执行 git-commit，只要执行 continue`
+
+```shell
+git rebase --continue
+```
+
+这样 `git` 会继续应用余下的 `patch` 补丁文件。
+
+7.在任何时候，我们都可以用 `--abort` 参数来终止 `rebase` 的行动，并且分支会回到 `rebase` 开始前的状态。
+
+```shell
+git rebase —abort
+```
+
+### 更多 Rebase 的使用场景
+
+1.当我们在一个过时的分支上面开发的时候，执行 `rebase` 以此同步 `master` 分支最新变动；
+2.假如我们要启动一个放置了很久的并行工作，现在有时间来继续这件事情，很显然这个分支已经落后了。这时候需要在最新的基准上面开始工作，所以 `rebase` 是最合适的选择。
+
+### 为什么会是危险操作？
+
+根据上文来看，`git-rebase` 很完美，解决了我们的两个问题：
+1.合并 `commit` 记录，保持分支整洁；
+2.相比 `merge` 来说会减少分支合并的记录；
+
+如果你提交了代码到远程，提交前是这样的：
+
+![git branch](../images/tools/git8.png)
+
+提交后远程分支变成了这样：
+
+![git branch](../images/tools/git9.png)
+
+而此时你的同事也在 `feature1` 上开发，他的分支依然还是：
+
+![git branch](../images/tools/git10.png)
+
+那么当他 `pull` 远程 `master` 的时候，就会有丢失提交纪录。这就是为什么我们经常听到有人说 `git rebase` 是一个危险命令，因为它改变了历史，我们应该谨慎使用。
+
+结论：只要你的分支上需要 `rebase` 的所有 `commits` 历史还没有被 `push` 过，就可以安全地使用 `git-rebase`来操作。
