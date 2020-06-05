@@ -10,7 +10,7 @@
 * 2.执行绑定函数
 * 3.注意参数length不确定
 * 4.this参数可以传null，当为null的时候，视为指向window
-* 5.函数是可以有返回值得
+* 5.函数是可以有返回值的
 
 ```javascript
 Function.prototype.call2 = function (context) {
@@ -115,12 +115,13 @@ Function.prototype.apply2 =  function (context, arr) {
   
   
   
+
 考虑构造函数
-  
+
   > 一个绑定函数也能使用new操作符创建对象：这种行为就像把原函数当成构造器。提供的 this 值被忽略，同时调用时的参数被提供给模拟函数。
-  
+
   也就是说当 bind 返回的函数作为构造函数的时候，bind 时指定的 this 值会失效，但传入的参数依然生效。举个例子：
-  
+
   ```javascript
   var value = 2;
   
@@ -148,11 +149,11 @@ Function.prototype.apply2 =  function (context, arr) {
   // shopping
   // kevin
   ```
+
   
-  
-  
+
   实现：
-  
+
   ```javascript
   
   Function.prototype.bind2 = function (context) {
@@ -171,9 +172,9 @@ Function.prototype.apply2 =  function (context, arr) {
       return fBound;
   }
   ```
-  
+
   优化：
-  
+
   ```javascript
   Function.prototype.bind2 = function (context) {
   
@@ -196,7 +197,7 @@ Function.prototype.apply2 =  function (context, arr) {
   
   }
   ```
-  
+
   
 
 

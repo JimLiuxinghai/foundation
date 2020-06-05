@@ -1,4 +1,4 @@
-## \虚拟dom与diff算法
+## 虚拟dom与diff算法
 
 问题点：
 
@@ -830,3 +830,6 @@ DOM-diff比较两个虚拟DOM的区别，也就是在比较两个对象的区别
 - 4、比较两颗虚拟dom树的差异，得到差异对象 （也可称为补丁）
 - 5、把差异对象应用到真是的DOM树上
 
+
+
+参考: [详解：虚拟dom及dIff算法-一篇就够了](https://juejin.im/post/5e53aad46fb9a07ca5303d7d#heading-0)
